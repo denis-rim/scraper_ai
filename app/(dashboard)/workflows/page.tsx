@@ -4,6 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { GetWorkflowsForUser } from '@/actions/workflows/getWorkflowsForUser'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import CreateWorkflowDialog from '@/app/(dashboard)/workflows/_components/CreateWorkflowDialog'
+import WorkflowCard from '@/app/(dashboard)/workflows/_components/WorkflowCard'
 
 function Workflows() {
   return (
@@ -64,7 +65,13 @@ async function UserWorkflows() {
     )
   }
 
-  return <div>Div</div>
+  return (
+    <div className="grid grid-rows-1 gap-4">
+      {workflows.map((workflow) => (
+        <WorkflowCard key={workflow.id} workflow={workflow} />
+      ))}
+    </div>
+  )
 }
 
 export default Workflows
