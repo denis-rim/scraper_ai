@@ -9,9 +9,10 @@ import SaveButton from '@/app/workflow/_components/topbar/SaveButton'
 interface Props {
   title: string
   subTitle?: string
+  workflowId: string
 }
 
-function TopBar({ title, subTitle }: Props) {
+function TopBar({ title, subTitle, workflowId }: Props) {
   const router = useRouter()
   return (
     <header className="flex p-2 border-b-2 border-separate justify-between w-full sticky bg-background z-10">
@@ -30,7 +31,7 @@ function TopBar({ title, subTitle }: Props) {
           )}
         </div>
         <div className="flex gap-1 flex-1 justify-end">
-          <SaveButton />
+          <SaveButton workflowId={workflowId} />
         </div>
       </div>
     </header>
