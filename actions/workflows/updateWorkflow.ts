@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/prisma'
 import { auth } from '@clerk/nextjs/server'
 import { WorkflowStatus } from '@/types/workflow'
+import { revalidatePath } from 'next/cache'
 
 export async function UpdateWorkflow({
   id,
@@ -33,4 +34,6 @@ export async function UpdateWorkflow({
     where: { id, userId },
     data: { definition },
   })
+
+  revalidatePath('/workflows')
 }

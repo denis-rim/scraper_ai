@@ -8,12 +8,12 @@ import {
   ReactFlow,
   useEdgesState,
   useNodesState,
+  useReactFlow,
 } from '@xyflow/react'
 
 import '@xyflow/react/dist/style.css'
-import { CreateFlowNode } from '@/lib/workflow/createFlowNode'
-import { TaskType } from '@/types/task'
 import NodeComponent from '@/app/workflow/_components/nodes/NodeComponent'
+import { useEffect } from 'react'
 
 const nodeTypes = {
   FlowScrapeNode: NodeComponent,
@@ -23,10 +23,23 @@ const snapGrid: [number, number] = [25, 25]
 const fitViewOptions = { padding: 2 }
 
 function FlowEditor({ workflow }: { workflow: Workflow }) {
-  const [nodes, setNodes, onNodeChange] = useNodesState([
-    CreateFlowNode(TaskType.LAUNCH_BROWSER),
-  ])
+  const [nodes, setNodes, onNodeChange] = useNodesState([])
   const [edges, setEdges, onEdgeChange] = useEdgesState([])
+  const { setViewport } = useReactFlow()
+
+  useEffect(() => {
+    try {
+      const parsedWorkflow = JSON.parse(workflow.definition)
+      if (!parsedWorkflow) return
+      setNodes(parsedWorkflow.nodes || [])
+      setEdges(parsedWorkflow.edges || [])
+      if (!parsedWorkflow.viewport) return
+      const { x = 1, y = 1, zoom = 1 } = parsedWorkflow.viewport
+      setViewport({ x, y, zoom })
+    } catch (e) {
+      console.error('Failed to parse workflow', e)
+    }
+  }, [workflow.definition, setNodes, setEdges, setViewport])
   return (
     <main className="h-full w-full">
       <ReactFlow
