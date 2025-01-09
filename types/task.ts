@@ -1,11 +1,13 @@
 export const TaskType = {
   LAUNCH_BROWSER: 'LAUNCH_BROWSER',
+  PAGE_TO_HTML: 'PAGE_TO_HTML',
 } as const
 
 export type TaskType = (typeof TaskType)[keyof typeof TaskType]
 
 export const TaskParamType = {
   STRING: 'STRING',
+  BROWSER_INSTANCE: 'BROWSER_INSTANCE',
 } as const
 
 export type TaskParamType = (typeof TaskParamType)[keyof typeof TaskParamType]

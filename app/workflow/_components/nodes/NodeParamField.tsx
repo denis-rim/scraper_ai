@@ -5,6 +5,7 @@ import { TaskParam, TaskParamType } from '@/types/task'
 import StringParam from '@/app/workflow/_components/nodes/param/StringParam'
 import { AppNode } from '@/types/appNode'
 import { useCallback } from 'react'
+import BrowserInstanceParam from '@/app/workflow/_components/nodes/param/BrowserInstanceParam'
 
 function NodeParamField({ param, nodeId }: { param: TaskParam; nodeId: string }) {
   const { updateNodeData, getNode } = useReactFlow()
@@ -31,6 +32,14 @@ function NodeParamField({ param, nodeId }: { param: TaskParam; nodeId: string })
         <StringParam
           param={param}
           value={value}
+          updateNodeParamValue={updateNodeParamValue}
+        />
+      )
+    case TaskParamType.BROWSER_INSTANCE:
+      return (
+        <BrowserInstanceParam
+          param={param}
+          value={''}
           updateNodeParamValue={updateNodeParamValue}
         />
       )
