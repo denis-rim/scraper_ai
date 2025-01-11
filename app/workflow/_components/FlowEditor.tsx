@@ -35,31 +35,35 @@ const fitViewOptions = { padding: 2 }
 function FlowEditor({ workflow }: { workflow: Workflow }) {
   const [nodes, setNodes, onNodeChange] = useNodesState<AppNode>([])
   const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([])
-  const { setViewport, screenToFlowPosition } = useReactFlow()
+  const { setViewport, screenToFlowPosition, updateNodeData } = useReactFlow()
 
   const onDragOver = useCallback((event: React.DragEvent) => {
     event.preventDefault()
     event.dataTransfer.dropEffect = 'move'
   }, [])
 
-  const onDrop = useCallback(
-    (event: React.DragEvent) => {
-      event.preventDefault()
-      const taskType = event.dataTransfer.getData('application/reactflow')
-      if (typeof taskType === undefined || !taskType) return
+  const onDrop = useCallback((event: React.DragEvent) => {
+    event.preventDefault()
+    const taskType = event.dataTransfer.getData('application/reactflow')
+    if (typeof taskType === undefined || !taskType) return
 
-      const position = screenToFlowPosition({ x: event.clientX, y: event.clientY })
-      const newNode = CreateFlowNode(taskType as TaskType, position)
-      setNodes((nodes) => nodes.concat(newNode))
-    },
-    [setNodes],
-  )
+    const position = screenToFlowPosition({ x: event.clientX, y: event.clientY })
+    const newNode = CreateFlowNode(taskType as TaskType, position)
+    setNodes((nodes) => nodes.concat(newNode))
+  }, [])
 
   const onConnect = useCallback(
     (connection: Connection) => {
       setEdges((edges) => addEdge({ ...connection, animated: true }, edges))
+      if (!connection.targetHandle) return
+      //   Remove input value if is present on connection
+      const node = nodes.find((node) => node.id === connection.target)
+      if (!node) return
+      const nodeInputs = node.data.inputs
+      delete nodeInputs[connection.targetHandle]
+      updateNodeData(node.id, { inputs: nodeInputs })
     },
-    [setEdges],
+    [setNodes, updateNodeData, nodes],
   )
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import {
   Accordion,
   AccordionContent,
@@ -9,7 +10,6 @@ import {
 import { TaskType } from '@/types/task'
 import { TaskRegistry } from '@/lib/workflow/task/registry'
 import { Button } from '@/components/ui/button'
-import React from 'react'
 
 export function TaskMenu() {
   return (
@@ -19,6 +19,7 @@ export function TaskMenu() {
           <AccordionTrigger className="font-bold">Data Extraction</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-1">
             <TaskMenuButton taskType={TaskType.PAGE_TO_HTML} />
+            <TaskMenuButton taskType={TaskType.EXTRACT_ELEMENT_FROM_HTML} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

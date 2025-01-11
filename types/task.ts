@@ -1,6 +1,7 @@
 export const TaskType = {
   LAUNCH_BROWSER: 'LAUNCH_BROWSER',
   PAGE_TO_HTML: 'PAGE_TO_HTML',
+  EXTRACT_ELEMENT_FROM_HTML: 'EXTRACT_ELEMENT_FROM_HTML',
 } as const
 
 export type TaskType = (typeof TaskType)[keyof typeof TaskType]
