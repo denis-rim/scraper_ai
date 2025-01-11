@@ -7,7 +7,15 @@ import { AppNode } from '@/types/appNode'
 import { useCallback } from 'react'
 import BrowserInstanceParam from '@/app/workflow/_components/nodes/param/BrowserInstanceParam'
 
-function NodeParamField({ param, nodeId }: { param: TaskParam; nodeId: string }) {
+function NodeParamField({
+  param,
+  nodeId,
+  disabled,
+}: {
+  param: TaskParam
+  nodeId: string
+  disabled?: boolean
+}) {
   const { updateNodeData, getNode } = useReactFlow()
 
   const node = getNode(nodeId) as AppNode
@@ -32,6 +40,7 @@ function NodeParamField({ param, nodeId }: { param: TaskParam; nodeId: string })
         <StringParam
           param={param}
           value={value}
+          disabled={disabled}
           updateNodeParamValue={updateNodeParamValue}
         />
       )
